@@ -12,8 +12,13 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+# patch mysql driver for python3
+import pymysql
+pymysql.install_as_MySQLdb()
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+CLIENT_DIR = os.path.join(BASE_DIR, 'client', 'dist')
 
 
 # Quick-start development settings - unsuitable for production
@@ -32,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+
+    'activity',
+    'dashboard',
+    'ihaveseen',
+    'record',
+    'work',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +60,7 @@ ROOT_URLCONF = 'ihaveseen.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'client', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,9 +97,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -101,3 +112,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#  GIT last commit hash
+GIT_HASH = ''
+try:
+    with open(os.path.join(BASE_DIR, '.git', 'ORIG_HEAD')) as f:
+        GIT_HASH = f.read().strip()[:8]
+except:
+    pass
+
+# CDN_HOST (* override required )
+CDN_HOST = ''

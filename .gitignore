@@ -1,2 +1,5 @@
 .idea/
 *.pyc
+ihaveseen/settings/production.py
+node_modules
+client/dist
